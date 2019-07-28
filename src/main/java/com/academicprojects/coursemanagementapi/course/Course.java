@@ -1,24 +1,45 @@
-package com.academicprojects.coursemanagementapi.topic;
+package com.academicprojects.coursemanagementapi.course;
+
+import com.academicprojects.coursemanagementapi.topic.Topic;
+import com.academicprojects.coursemanagementapi.topic.TopicRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Topic {
+public class Course {
 
     @Id
     private String id;
+
     private String name;
     private String description;
 
-    public Topic() {
-        
-    }
+    @ManyToOne
+    private Topic topic;
 
-    public Topic(String id, String name, String description) {
+
+    public Course(String id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
+    }
+
+
+
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
+
+    public Course() {
+
     }
 
     public String getId() {

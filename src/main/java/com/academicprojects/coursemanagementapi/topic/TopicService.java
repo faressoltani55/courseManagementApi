@@ -1,5 +1,6 @@
 package com.academicprojects.coursemanagementapi.topic;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -9,6 +10,9 @@ import java.util.List;
 @Service
 public class TopicService {
 
+    @Autowired
+    TopicRepository topicRepository;
+
     List<Topic> topics = new ArrayList<>(Arrays.asList (
             new Topic("javaee","JavaEE","JavaEE Tutorials"),
             new Topic("springboot","SpringBoot","SpringBoot Tutorials"),
@@ -17,27 +21,24 @@ public class TopicService {
 
 
     public List<Topic> getAllTopics() {
+        List<Topic> topics = new ArrayList<>();
+        topicRepository.findAll().forEach(topics::add);
         return topics;
     }
 
     public Topic getTopic(String id){
-        return topics.stream().filter(t -> t.getId().equals(id)).findFirst().get();
+        return topicRepository.findById(id).get();
     }
 
     public void addTopic(Topic topic) {
-        topics.add(topic);
+        topicRepository.save(topic);
     }
 
-    public void updateTopic(Topic topic, String id) {
-        for(int i=0; i< topics.size(); i++) {
-            if((topics.get(i)).getId().equals(id)) {
-                topics.set(i,topic);
-                return;
-            }
-        }
+    public void updateTopic(Topic topic) {
+        topicRepository.save(topic);
     }
 
     public void deleteTopic(String id) {
-        topics.removeIf(t -> t.getId().equals(id));
+        topicRepository.deleteById(id);
     }
 }
